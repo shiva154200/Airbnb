@@ -4,6 +4,7 @@ const path = require('path');
 const app = express();
 const ejsMate=require('ejs-mate')
 const methodOverride=require("method-override");
+const session=require("express-session")
 app.set('view engine','ejs');
 app.set('views',path.join(__dirname,'/views'));
 app.use(express.urlencoded({extended:true}));
@@ -24,9 +25,18 @@ main().then(()=>{
     console.log("Error connecting to MongoDB:", err);
 });
 
-
+const sessionOptions={
+    secret: "mySecretKey",
+    resave: false,
+    saveUninitialized: true,
+    cookie:{
+        expires:Date.now()+7*24*60*60*1000,
+        maxAge:7*24*60*60*1000,
+        httpOnly:true,
+    }
+}
 const { listingSchema,reviewSchema } = require("./schemavalidation");
-
+app.use(session(sessionOptions))
 app.use('/listings',listing)
 
 app.use('/listings/:id/reviews',reviews)
