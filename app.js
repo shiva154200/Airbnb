@@ -5,6 +5,7 @@ const app = express();
 const ejsMate=require('ejs-mate')
 const methodOverride=require("method-override");
 const session=require("express-session")
+const flash=require("connect-flash")
 app.set('view engine','ejs');
 app.set('views',path.join(__dirname,'/views'));
 app.use(express.urlencoded({extended:true}));
@@ -37,9 +38,17 @@ const sessionOptions={
 }
 const { listingSchema,reviewSchema } = require("./schemavalidation");
 app.use(session(sessionOptions))
+app.use(flash())
+
+app.use((req,res,next)=>{
+    res.locals.success=req.flash("success");
+     next();
+
+})
 app.use('/listings',listing)
 
 app.use('/listings/:id/reviews',reviews)
+
 
 
 app.get('/',(req,res)=>{
