@@ -18,6 +18,14 @@ body{
     height:5rem;
     background-color: aliceblue;
 }
+.navbar-collapse {
+  background-color: #ffffff;          /* Clean white background */
+  padding: 12px 16px;                 /* Better spacing */
+  margin-top: 8px;                   /* Gap below navbar */
+  border-radius: 12px;               /* Rounded corners */
+  box-shadow: 0 8px 20px rgba(0,0,0,0.08); /* Soft shadow */
+  border: 1px solid rgba(0,0,0,0.05); /* Light border */
+}
 
 .fa-compass{
     color:#fe424d;
