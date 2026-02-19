@@ -9,7 +9,7 @@ const ExpressError=require("../utils/ExpressError.js")
 // app.use(express.static(path.join(__dirname,'public')))
 
 const { listingSchema,reviewSchema } = require("../schemavalidation");
-
+const {isLoggedIn}=require("../middleware.js")
 
   const validateListing = (req, res, next) => {
     const { error } = listingSchema.validate(req.body);
@@ -30,12 +30,13 @@ router.get('/',wrapAsync(async(req,res)=>{
 
 //new list create
 
-router.get('/new',(req,res)=>{
+router.get('/new',isLoggedIn,(req,res)=>{
+    
     res.render('./listings/new.ejs');
 
 })
 
-router.post('/',validateListing,wrapAsync(async(req,res,next)=>{
+router.post('/',isLoggedIn,validateListing,wrapAsync(async(req,res,next)=>{
     
  
     let listing=req.body.listing;
@@ -63,7 +64,7 @@ router.get('/:id',wrapAsync(async(req,res)=>{
 
 //update rout
 
-router.get('/:id/edit',wrapAsync(async(req,res)=>{
+router.get('/:id/edit',isLoggedIn,wrapAsync(async(req,res)=>{
     const {id}=req.params;
     const listing=await Listing.findById(id);
     if(!listing){
@@ -85,7 +86,7 @@ router.put('/:id',validateListing,wrapAsync(async(req,res)=>{
 
 //delete route
 
-router.delete('/:id',wrapAsync(async(req,res)=>{
+router.delete('/:id',isLoggedIn,wrapAsync(async(req,res)=>{
     let {id}=req.params;
     await Listing.findByIdAndDelete(id)
     req.flash('success',"Listing Deleted!")
