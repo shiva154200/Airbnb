@@ -5,10 +5,14 @@
             <div class="row justify-content-center">
                 <div class="col-md-8">
 
+
                     <div class="card shadow-lg">
                         <img src="<%= listing.image %>" class="card-img-top" alt="listing-image">
 
                         <div class="card-body">
+                            <p class="text-muted mb-1">
+                                <b> Owned By <%=listing.owner.username%></b>
+                            </p>
 
                             <h3 class="card-title">
                                 <%= listing.title %>
@@ -28,14 +32,20 @@
                             </p>
 
                             <div class="d-flex gap-2 mt-3">
+
+                                <% if(userinfo&&(userinfo._id.equals(listing.owner._id))) {%>
                                 <a href="/listings/<%= listing._id %>/edit" class="btn btn-success">Edit</a>
 
                                 <form action="/listings/<%= listing._id %>?_method=DELETE" method="POST">
                                     <button class="btn btn-danger">Delete</button>
                                 </form>
+
+                                <% } %>
+
                             </div>
                         </div>
                     </div>
+                    <% if(userinfo) {%>
 
                     <div class="card mt-4 shadow-sm">
                         <div class="card-body">
@@ -59,7 +69,7 @@
                             </form>
                         </div>
                     </div>
-
+                     <% } %>
                     <div class="card mt-4 shadow-sm">
                         <div class="card-body">
                             <h4>All Reviews</h4>
@@ -72,7 +82,7 @@
                                         <div class="border rounded p-3 mb-3">
 
                                             <div class="d-flex justify-content-between align-items-center">
-                                                <strong>srj</strong>
+                                                <strong><%= review.author.username %></strong>
 
                                                 <form
                                                     action="/listings/<%= listing._id %>/reviews/<%= review._id %>?_method=DELETE"

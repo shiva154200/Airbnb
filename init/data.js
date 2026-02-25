@@ -305,6 +305,9 @@ const sampleListings = [
 
 const initDB=async()=>{
     await Listing.deleteMany({});
+   for(let obj of sampleListings){
+    obj.owner="699a99f7f80c80fd7210768d";
+   }
     await Listing.insertMany(sampleListings).then(()=>{
         console.log("Sample listings inserted");
     }).catch((err)=>{

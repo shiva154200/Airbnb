@@ -58,11 +58,12 @@ app.use(passport.session());
 passport.use(new LocalStrategy(User.authenticate()));
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
+
 app.use((req,res,next)=>{
     res.locals.success=req.flash("success");
     res.locals.error=req.flash("error");
+    res.locals.userinfo=req.user;
     next();
-
 })
 
 app.use('/',userRouter)
@@ -84,7 +85,6 @@ app.use((req,res,next)=>{
 
 app.use((err,req,res,next)=>{
     let {status=500,message="Internal Server Error"}=err;
-    
     res.status(status).render("./listings/error.ejs",{message,status})
 })
 
