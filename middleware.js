@@ -4,8 +4,6 @@ const ExpressError=require("./utils/ExpressError");
 const { listingSchema,reviewSchema} = require("./schemavalidation");
 const Review=require("./models/review")
 
-
-
 module.exports.isLoggedIn=(req,res,next)=>{
     if(!req.isAuthenticated()){
     req.session.redirectUrl=req.originalUrl;
@@ -62,7 +60,7 @@ module.exports.isReviewAuthor=async(req,res,next)=>{
     let {reviewId,id}=req.params;
     let review =  await Review .findById(reviewId);
     if( !((review.author._id).equals(res.locals.userinfo._id))){
-        req.flash("error","u dont permission to do this")
+        req.flash("error","u don't have permission to do this")
         return res.redirect(`/listings/${id}`)
     }
 

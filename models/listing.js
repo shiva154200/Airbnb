@@ -6,12 +6,8 @@ const listingSchema = new Schema({
     title: { type: String, required: true },
     description: { type: String },
       image: {
-        type: String,
-        default: "https://hips.hearstapps.com/hmg-prod/images/edc100123egan-002-64ff8c50b2197.jpg?resize=980:*",
-        set: (url) =>
-            url === ""
-                ? "https://hips.hearstapps.com/hmg-prod/images/edc100123egan-002-64ff8c50b2197.jpg?resize=980:*"
-                : url
+       url:String,
+       filename:String
     }
     ,
     price: Number,
