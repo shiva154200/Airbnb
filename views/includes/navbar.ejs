@@ -1,33 +1,41 @@
 <nav class="navbar navbar-expand-md border-bottom sticky-top">
-    <div class="container-fluid px-4">
-        <a class="navbar-brand d-flex align-items-center gap-2" href="/">
+    <div class="container-fluid px-3 px-md-4">
+        <a class="navbar-brand d-flex align-items-center gap-2" href="/" aria-label="Wanderlust home">
             <i class="fa-solid fa-compass"></i>
             <span class="fw-bold">Wanderlust</span>
         </a>
 
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup"
-            aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+        <button class="navbar-toggler shadow-none" type="button" data-bs-toggle="collapse"
+            data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup"
+            aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
 
         <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-            <div class="navbar-nav ms-2">
-                <a class="nav-link" href="/"><i class="fa-solid fa-house me-1"></i> Home</a>
-                <a class="nav-link" href="/listings"><i class="fa-solid fa-compass me-1"></i> Explore</a>
-                <a class="nav-link" href="/listings/new"><i class="fa-solid fa-plus me-1"></i> Add Listing</a>
+            <div class="navbar-nav mx-auto gap-md-1 mt-3 mt-md-0">
+                <a class="nav-link" href="/">
+                    <i class="fa-solid fa-house me-1"></i> Home
+                </a>
+                <a class="nav-link" href="/listings">
+                    <i class="fa-solid fa-compass me-1"></i> Explore
+                </a>
+                <a class="nav-link" href="/listings/new">
+                    <i class="fa-solid fa-plus me-1"></i> Add Listing
+                </a>
             </div>
 
-            <div class="navbar-nav ms-auto align-items-md-center">
+            <div class="navbar-nav align-items-md-center gap-md-1 mt-2 mt-md-0">
                 <% if(!userinfo) { %>
                     <a class="nav-link" href="/signup">Signup</a>
-                    <a class="nav-link" href="/login">Login</a>
+                    <a class="nav-link nav-login" href="/login">Login</a>
                 <% } %>
 
                 <% if(userinfo) { %>
-                    <span class="nav-link text-muted d-none d-md-block">
-                        <i class="fa-regular fa-circle-user me-1"></i><%= userinfo.username %>
-                    </span>
-                    <a class="nav-link" href="/logout">Logout</a>
+                    <div class="nav-user d-flex align-items-center px-2 py-1">
+                        <i class="fa-regular fa-circle-user me-2"></i>
+                        <span><%= userinfo.username %></span>
+                    </div>
+                    <a class="nav-link nav-logout" href="/logout">Logout</a>
                 <% } %>
             </div>
         </div>
