@@ -14,6 +14,35 @@ module.exports.reviewPostRoute=async(req,res)=>{
 
 };
 
+module.exports.editReviewForm=async(req,res)=>{
+    const {id,reviewId}=req.params;
+    const review=await Review.findById(reviewId);
+
+    if(!review){
+        req.flash("error","Review not found!");
+        return res.redirect(`/listings/${id}`);
+    }
+
+    res.render("./listings/editReview.ejs",{review,listingId:id});
+};
+
+module.exports.updateReview=async(req,res)=>{
+    const {id,reviewId}=req.params;
+    const review=await Review.findByIdAndUpdate(
+        reviewId,
+        req.body.review,
+        {new:true,runValidators:true}
+    );
+
+    if(!review){
+        req.flash("error","Review not found!");
+        return res.redirect(`/listings/${id}`);
+    }
+
+    req.flash("success","Review Updated");
+    res.redirect(`/listings/${id}`);
+};
+
 module.exports.destroyRoute=async(req,res)=>{
     const {id,reviewId}=req.params;
     await Listing.findByIdAndUpdate(id,{$pull:{reviews:reviewId}});
