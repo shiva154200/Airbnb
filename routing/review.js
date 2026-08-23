@@ -11,8 +11,11 @@ const Controller=require("../Controller/review.js")
 
 router.post('/',isLoggedIn,validateReview,wrapAsync(Controller.reviewPostRoute))
 
-//review delete route
+// Review edit route
+router.get('/:reviewId/edit',isLoggedIn,isReviewAuthor,wrapAsync(Controller.editReviewForm));
+router.put('/:reviewId',isLoggedIn,isReviewAuthor,validateReview,wrapAsync(Controller.updateReview));
 
+// review delete route
 router.delete('/:reviewId',isLoggedIn,isReviewAuthor,wrapAsync(Controller.destroyRoute));
 
 module.exports=router;

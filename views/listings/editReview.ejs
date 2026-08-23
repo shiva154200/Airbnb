@@ -1,0 +1,30 @@
+<% layout("/layouts/boilerplate") %>
+
+<div class="container mt-4">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <h4>Edit Your Review</h4>
+
+                    <form action="/listings/<%= listingId %>/reviews/<%= review._id %>?_method=PUT" method="POST" class="needs-validation" novalidate>
+                        <label class="form-label mt-2">Rating</label>
+                        <input type="range" min="1" max="5" value="<%= review.rating %>" class="form-range" name="review[rating]" required>
+
+                        <label class="form-label mt-3">Comment</label>
+                        <textarea class="form-control" rows="4" name="review[comment]" required><%= review.comment %></textarea>
+
+                        <div class="invalid-feedback">
+                            Please enter a comment.
+                        </div>
+
+                        <button class="btn btn-dark mt-3">Update Review</button>
+                        <a href="/listings/<%= listingId %>" class="btn btn-secondary mt-3">Cancel</a>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="/js/script.js"></script>
