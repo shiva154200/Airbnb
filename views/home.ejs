@@ -1,0 +1,70 @@
+<% layout("/layouts/boilerplate") %>
+
+<section class="home-hero">
+    <div class="home-hero-overlay"></div>
+    <div class="home-hero-content">
+        <span class="home-eyebrow"><i class="fa-solid fa-compass"></i> Explore the world differently</span>
+        <h1>Find a place you'll<br><span>love to stay.</span></h1>
+        <p>Discover unique stays, beautiful destinations, and unforgettable experiences with Wanderlust.</p>
+        <div class="home-actions">
+            <a href="/listings" class="home-primary-btn">Explore stays <i class="fa-solid fa-arrow-right"></i></a>
+            <% if (!userinfo) { %>
+                <a href="/signup" class="home-secondary-btn">Join Wanderlust</a>
+            <% } else { %>
+                <a href="/listings/new" class="home-secondary-btn">List your place</a>
+            <% } %>
+        </div>
+    </div>
+</section>
+
+<section class="home-intro">
+    <div>
+        <span class="home-section-label">WANDER. DISCOVER. STAY.</span>
+        <h2>Stay somewhere<br>worth remembering.</h2>
+    </div>
+    <p>From peaceful escapes to lively city stays, explore places made for your next adventure.</p>
+</section>
+
+<section class="home-featured">
+    <% if (featuredListings.length) { %>
+        <div class="home-section-heading">
+            <div>
+                <span class="home-section-label">FEATURED STAYS</span>
+                <h2>Places to inspire your next trip</h2>
+            </div>
+            <a href="/listings" class="home-view-all">View all <i class="fa-solid fa-arrow-right"></i></a>
+        </div>
+
+        <div class="home-listing-grid">
+            <% featuredListings.forEach(listing => { %>
+                <a href="/listings/<%= listing._id %>" class="home-listing-card">
+                    <div class="home-listing-image-wrap">
+                        <img src="<%= listing.image.url %>" alt="<%= listing.title %>" class="home-listing-image">
+                        <span class="home-listing-badge"><i class="fa-solid fa-star"></i> Wanderlust stay</span>
+                    </div>
+                    <div class="home-listing-info">
+                        <h3><%= listing.title %></h3>
+                        <p><i class="fa-solid fa-location-dot"></i> <%= listing.location %><%= listing.country ? ', ' + listing.country : '' %></p>
+                        <strong>&#8377;<%= listing.price.toLocaleString("en-IN") %> <span>/ night</span></strong>
+                    </div>
+                </a>
+            <% }) %>
+        </div>
+    <% } else { %>
+        <div class="home-empty-state">
+            <div class="home-empty-icon"><i class="fa-solid fa-house"></i></div>
+            <h2>Your next stay starts here.</h2>
+            <p>There are no listings yet. Create the first one and make Wanderlust your own.</p>
+            <a href="/listings/new" class="home-primary-btn">Add a listing <i class="fa-solid fa-plus"></i></a>
+        </div>
+    <% } %>
+</section>
+
+<section class="home-cta">
+    <div>
+        <span class="home-section-label">YOUR NEXT ADVENTURE</span>
+        <h2>Ready to wander?</h2>
+        <p>Explore new places and find a stay that feels like yours.</p>
+    </div>
+    <a href="/listings" class="home-primary-btn">Start exploring <i class="fa-solid fa-arrow-right"></i></a>
+</section>
