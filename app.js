@@ -74,12 +74,14 @@ app.use('/',userRouter)
 app.use('/listings',listingRouter)
 app.use('/listings/:id/reviews',reviewRouter)
 
-
-
-app.get('/',(req,res)=>{
-    res.send("Welcome to Airbnb Clone");
+app.get('/',async (req,res,next)=>{
+    try {
+        const featuredListings = await mongoose.model('Listing').find({}).limit(6);
+        res.render('./home.ejs',{featuredListings});
+    } catch(err) {
+        next(err);
+    }
 });
-
 
 app.use((req,res,next)=>{
     next(new ExpressError(404,'page not found'))
