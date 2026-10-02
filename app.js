@@ -69,7 +69,6 @@ app.use((req,res,next)=>{
     res.locals.userinfo=req.user;
     next();
 })
-
 app.use('/',userRouter)
 app.use('/listings',listingRouter)
 app.use('/listings/:id/reviews',reviewRouter)
