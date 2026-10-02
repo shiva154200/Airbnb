@@ -29,7 +29,7 @@ app.use(express.static(path.join(__dirname,'public')))
 
 
 async function main(){
-    await mongoose.connect('mongodb://127.0.0.1:27017/wanderlust');
+    await mongoose.connect(process.env.MONGO_URI);
 }
 
 main().then(()=>{
@@ -41,16 +41,19 @@ main().then(()=>{
 const { listingSchema,reviewSchema } = require("./schemavalidation");
 
 
-const sessionOptions={
-    secret: "mySecretKey",
+app.set("trust proxy", 1);
+
+const sessionOptions = {
+    secret: process.env.SESSION_SECRET,
     resave: false,
-    saveUninitialized: true,
-    cookie:{
-        expires:Date.now()+7*24*60*60*1000,
-        maxAge:7*24*60*60*1000,
-        httpOnly:true,
+    saveUninitialized: false,
+    cookie: {
+        expires: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
+        maxAge: 7 * 24 * 60 * 60 * 1000,
+        httpOnly: true,
+        secure: process.env.NODE_ENV === "production"
     }
-}
+};
 const passport=require("passport");
 const LocalStrategy = require('passport-local').Strategy;
 const User=require("./models/user.js")
@@ -95,6 +98,8 @@ app.use((err,req,res,next)=>{
 
 
 
-app.listen(8080,()=>{
-    console.log("Server is running on port 8080");
+const PORT = process.env.PORT || 8080;
+
+app.listen(PORT, () => {
+    console.log(`Server is running on port ${PORT}`);
 });

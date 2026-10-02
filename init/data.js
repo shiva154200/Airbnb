@@ -1,11 +1,16 @@
+require("dotenv").config();
+
 const mongoose = require("mongoose");
 const Listing = require("../models/listing");
-async function main(){
-    await mongoose.connect('mongodb://127.0.0.1:27017/wanderlust');
+const User = require("../models/user");
+
+async function main() {
+    await mongoose.connect(process.env.MONGO_URI);
 }
-main().then(()=>{
+
+main().then(() => {
     console.log("Connected to MongoDB");
-}).catch((err)=>{   
+}).catch((err) => {
     console.log("Error connecting to MongoDB:", err);
 });
 
@@ -366,19 +371,38 @@ module.exports = { data: sampleListings };
 
 
 
-const initDB=async()=>{
-    await Listing.deleteMany({});
-   for(let obj of sampleListings){
-    obj.owner="699a99f7f80c80fd7210768d";
-   }
-    await Listing.insertMany(sampleListings).then(()=>{
-        console.log("Sample listings inserted");
-    }).catch((err)=>{
-        console.log("Error inserting sample listings:", err);
-    }
-    );
-    
+const initDB = async () => {
+    try {
+        await main();
 
-}
+        let seedUser = await User.findOne({ username: "seeduser" });
+
+        if (!seedUser) {
+            seedUser = await User.register(
+                new User({
+                    username: "seeduser",
+                    email: "seeduser@example.com"
+                }),
+                "SeedUser@123"
+            );
+
+            console.log("Seed user created");
+        }
+
+        await Listing.deleteMany({});
+
+        for (let listing of sampleListings) {
+            listing.owner = seedUser._id;
+        }
+
+        await Listing.insertMany(sampleListings);
+
+        console.log("Sample listings inserted successfully");
+    } catch (err) {
+        console.log("Error seeding database:", err);
+    } finally {
+        await mongoose.connection.close();
+    }
+};
 
 initDB();
